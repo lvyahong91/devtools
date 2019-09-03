@@ -1,0 +1,8 @@
+1 进入nodejs安装根目录
+D:\Service\nodejs  将此路径加入系统类路径
+D:\Service\nodejs\node_modules\npm 也加入系统类路径
+2 node -v 查看安装版本，npm -v 查看版本，npm是安装包管理工具，是nodejs自带的资源管理工具
+
+3  npm install -g grunt-cli，安装grunt工具
+
+4 进入 D:\Service\elasticsearch-5.6.5\plugins\elasticsearch-head-master，执行npm install ,安装es的插件 head,方便创建索引

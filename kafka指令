@@ -1,0 +1,39 @@
+ windows平台开启kafka 步骤
+ 1 启动zookeeper: zkServer  (前提zookeeper解压后的安装文件下的bin目录已加入类路径)
+ 2 启动kafka：安装目录下bin\windows\kafka-server-start  D:\Service\kafka_2.12-2.3.0\config\server.properties
+ 
+ #TOPIC创建
+ kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test
+ 
+ kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 3 --topic test2
+ #查看所有topic 
+ kafka-topics.bat  --zookeeper localhost:2181 --list
+ #查看特定topic
+ kafka-topics.bat  --zookeeper localhost:2181 --topic test2 --describe
+  
+ #查看所有消费者
+ kafka-consumer-groups --bootstrap-server localhost:9092  --list
+ #查看特定消费者
+ kafka-consumer-groups --bootstrap-server localhost:9092  --describe --group test100
+ #消费者参数配置
+ Properties properties=new Properties();
+		properties.put("bootstrap.servers", "localhost:9092");
+		properties.put("group.id", "test3");
+		properties.put("auto.offset.reset", "earliest");  //消费完毕重新消费
+//		properties.put("auto.offset.reset", "latest");    //消费完毕不再重复消费
+		properties.put("enable.auto.commit", "false");  //自动提交为true时，earliest和latest都从最新的offset消费数据；为false,earliest从
+		头开始消费，latest从当前消息的最后位置开始消费
+		properties.put("auto.commit.interval.ms", "1000");
+		properties.put("session.timeout.ms", "30000");
+		properties.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+		properties.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+		
+		Consumer<String, String> consumer=new KafkaConsumer<String, String>(properties);
+		consumer.subscribe(Arrays.asList("test"));
+		ConsumerRecords<String, String> consumerRecords=consumer.poll(8000);   //此处timeout应该设的大一些，不然取不到数据
+		for (ConsumerRecord<String, String> consumerRecord : consumerRecords) {
+			System.out.println("测试是否有数据");
+			System.out.printf("offset = %d, key = %s, value = %s\n", consumerRecord.offset(), consumerRecord.key(), consumerRecord.value());
+		}
+		consumer.close();
+		System.out.println("数据消费完毕");
