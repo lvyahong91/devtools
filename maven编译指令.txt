@@ -1,0 +1,2 @@
+#编译源码，打成jar包
+mvn clean install -Dmaven.test.skip -Denv=release

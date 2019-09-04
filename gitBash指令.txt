@@ -1,0 +1,9 @@
+1 在目标文件加目录下 点击右键，打开gitbash
+
+2 建立本地仓库，git init
+
+3 将目录下所有文件添加到stage,  git add .
+
+4 将本地仓库远程连接到github 仓库， git  remote add origin  https://github.com/lvyahong91/openjdk1.8
+
+5 提交代码到github,git commit
