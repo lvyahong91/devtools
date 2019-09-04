@@ -1,0 +1,26 @@
+curl  "http://localhost:9100/test"  -H "Content-Type: application/json" -d  "{ "id" : 3, "username" :  "测试测试", "description" :  "测试测试" }"
+
+#创建索引
+curl -XPOST "http://localhost:9200/music/lyrics" -H "Content-Type: application/json"
+curl -XPUT “localhost:9200/customer?pretty"
+#windows向索引添加数据，花括号内的双引号或者单号前必须加\,进行转义
+curl -XPUT "localhost:9100/customer/external/1?pretty" -H "Content-Type: application/json" -d "{\"name\": \"John Doe\" }"
+
+curl -XPUT "http://localhost:9200/music/songs/2" -H "Content-Type: application/json" -d "{ \"name\": \"Deck the Halls\", \"year\": 1887, \"lyrics\": \"Fa la la la la\" }"
+#查询
+curl -XGET "http://localhost:9200/music/songs/1" -H "Content-Type: application/json"
+#将查询结果格式化输出
+curl -XGET "http://localhost:9200/music/songs/1?pretty"
+#条件查询
+curl -XGET "http://localhost:9200/music/songs/_search?q=lyrics:'la'"
+curl -XGET http://localhost:9200/music/songs/_search?q=year:"<1900"
+#要限制您在结果中看到的字段，可将 fields 参数添加到您的查询中：
+curl -XGET "http://localhost:9200/music/lyrics/_search?q=year:>1900&fields=year"
+
+#删除
+
+curl -XDELETE "http://localhost:9200/music/songs/1"
+
+#从文件插入文档
+curl -XPUT http://localhost:9200/music/songs/3 -H "Content-Type: application/json" -d "D:\Service\运维指令集\caseyjones.json"
+
