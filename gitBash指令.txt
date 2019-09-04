@@ -6,4 +6,11 @@
 
 4 将本地仓库远程连接到github 仓库， git  remote add origin  https://github.com/lvyahong91/openjdk1.8
 
-5 提交代码到github,git commit
+5 提交代码到工作区,git commit -a
+
+6 git push ,推送所有分支/
+
+
+7 git checkout lv  检出本地分支lv
+
+ git push origin lv  推送本地分支到远程仓库lv分支，origin 是远程仓库别名，lv是远程分支
